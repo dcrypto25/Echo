@@ -1,0 +1,148 @@
+.staking-panel,
+.bonding-panel,
+.referral-panel {
+  width: 100%;
+}
+
+.panel-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.panel-header h1 {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.panel-header p {
+  font-size: 18px;
+  color: var(--text-secondary);
+}
+
+.staking-grid,
+.bonding-grid,
+.referral-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.staking-card,
+.bonding-card,
+.referral-card {
+  background: var(--background-card);
+  padding: 32px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.staking-card h2,
+.bonding-card h2,
+.referral-card h2 {
+  margin-bottom: 24px;
+  color: var(--primary-color);
+  font-size: 24px;
+}
+
+.position-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.position-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: rgba(0, 212, 255, 0.05);
+  border-radius: 8px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 16px;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.max-btn {
+  position: absolute;
+  right: 12px;
+  top: 38px;
+  background: var(--primary-color);
+  color: var(--background-dark);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.penalty-warning {
+  background: rgba(255, 68, 68, 0.1);
+  border: 1px solid var(--error-color);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.penalty-warning p {
+  color: var(--error-color);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.penalty-warning small {
+  color: var(--text-secondary);
+}
+
+.reward-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.connect-prompt {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.connect-prompt h2 {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.connect-prompt p {
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .staking-grid,
+  .bonding-grid,
+  .referral-grid {
+    grid-template-columns: 1fr;
+  }
+}

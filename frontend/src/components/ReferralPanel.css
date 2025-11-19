@@ -1,0 +1,194 @@
+.referral-card.large {
+  grid-column: span 2;
+}
+
+.referral-link-box {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.referral-link-input {
+  flex: 1;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.social-share h4 {
+  margin-bottom: 12px;
+  color: var(--text-secondary);
+}
+
+.social-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.social-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.social-btn.twitter {
+  background: #1DA1F2;
+  color: white;
+}
+
+.social-btn.telegram {
+  background: #0088cc;
+  color: white;
+}
+
+.social-btn.discord {
+  background: #5865F2;
+  color: white;
+}
+
+.social-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.referral-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.referral-stat {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(0, 212, 255, 0.05);
+  border-radius: 8px;
+}
+
+.stat-icon {
+  font-size: 32px;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.tier-progression {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tier-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  opacity: 0.5;
+  transition: all 0.3s;
+}
+
+.tier-item.active {
+  opacity: 1;
+  background: rgba(0, 212, 255, 0.1);
+  border-color: var(--primary-color);
+}
+
+.tier-item.completed {
+  opacity: 0.7;
+  background: rgba(0, 255, 136, 0.05);
+  border-color: var(--success-color);
+}
+
+.tier-badge {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.tier-multiplier {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.referral-structure {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bonus-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background: rgba(0, 212, 255, 0.05);
+  border-radius: 8px;
+}
+
+.bonus-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background: rgba(0, 212, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid var(--primary-color);
+  margin-top: 8px;
+}
+
+.how-it-works {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.step-content h4 {
+  margin-bottom: 8px;
+  color: var(--primary-color);
+}
+
+.step-content p {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+@media (max-width: 1024px) {
+  .referral-card.large {
+    grid-column: span 1;
+  }
+
+  .how-it-works {
+    grid-template-columns: 1fr;
+  }
+}
