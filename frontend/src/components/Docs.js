@@ -28,6 +28,7 @@ const Docs = () => {
     'Mechanisms': [
       { id: 'dynamic-apy', title: 'Dynamic APY', file: 'mechanisms/dynamic-apy.md' },
       { id: 'unstake-penalty', title: 'Unstake Penalty', file: 'mechanisms/unstake-penalty.md' },
+      { id: 'instant-unstake', title: 'Instant Unstake', file: 'mechanisms/instant-unstake.md' },
       { id: 'referral-system', title: 'Referral System', file: 'mechanisms/referral-system.md' },
       { id: 'lock-tiers', title: 'Lock Tiers', file: 'mechanisms/lock-tiers.md' },
       { id: 'treasury-backing', title: 'Treasury Backing', file: 'mechanisms/treasury-backing.md' },

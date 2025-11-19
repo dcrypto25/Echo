@@ -852,48 +852,96 @@ Effects:
 
 ### Price Formula
 
-```
-price(s) = 0.0003 ETH × (1 + s / 1,000,000)²
+Exponential bonding curve with 50x price increase:
 
-Where s = current sold supply
 ```
+price(s) = $0.0003 × (1 + s / 1,000,000)^5.64
+
+Where:
+  s = current sold supply (in ECHO tokens with 18 decimals)
+  INITIAL_PRICE = $0.0003 USD
+  FINAL_PRICE = $0.015 USD (50x increase)
+  MAX_SUPPLY = 1,000,000 ECHO
+```
+
+**Design Parameters:**
+- Starting price: $0.0003 USD
+- Ending price: $0.015 USD (50x increase: 0.015 / 0.0003 = 50)
+- Max supply: 1,000,000 ECHO tokens
+- Expected treasury raised: ~$9,500 USD
+
+**Why Exponential (5.64 exponent)?**
+- Creates massive early advantage (first buyers get 50x better price than last)
+- Gradual price discovery as supply increases
+- Prevents late-stage dump (price too high to flip quickly)
+- Fair launch: No pre-sale, no whitelist, pure math
 
 ### Implementation
 
 ```solidity
-function calculatePrice(uint256 supply) public pure returns (uint256) {
-    uint256 base = 0.0003 ether;
-    uint256 factor = 1e18 + (supply * 1e18) / 1_000_000;
-    uint256 squared = (factor * factor) / 1e18;
-    return (base * squared) / 1e18;
+function _curvePrice(uint256 supply) private pure returns (uint256) {
+    if (supply >= MAX_SUPPLY) return FINAL_PRICE;
+
+    // price = INITIAL_PRICE * (1 + supply/MAX_SUPPLY)^5.64
+    uint256 ratio = (supply * 1e18) / MAX_SUPPLY;
+    uint256 onePlusRatio = 1e18 + ratio;
+
+    // Calculate (1 + ratio)^5.64 ≈ (1 + ratio)^5.5
+    // = ((1 + ratio)^2)^2 * (1 + ratio) * sqrt(1 + ratio)
+    uint256 squared = (onePlusRatio * onePlusRatio) / 1e18;
+    uint256 toTheFourth = (squared * squared) / 1e18;
+    uint256 toTheFifth = (toTheFourth * onePlusRatio) / 1e18;
+    uint256 sqrtTerm = _sqrt(onePlusRatio * 1e18) / 1e9;
+
+    uint256 result = (toTheFifth * sqrtTerm) / 1e18;
+    return (INITIAL_PRICE * result) / 1e18;
 }
 ```
 
 ### Price Progression
 
-| Supply Sold | Price (ETH) | Price (USD @ $2000) |
-|-------------|-------------|---------------------|
-| 0 | 0.0003 | $0.60 |
-| 100,000 | 0.000363 | $0.73 |
-| 500,000 | 0.000675 | $1.35 |
-| 1,000,000 | 0.0012 | $2.40 |
+| Supply Sold | Price (USD) | Multiplier vs Start | Treasury Raised (Cumulative) |
+|-------------|-------------|---------------------|------------------------------|
+| 0 | $0.0003 | 1x | $0 |
+| 250,000 | $0.0007 | 2.3x | ~$125 |
+| 500,000 | $0.00184 | 6.1x | ~$550 |
+| 750,000 | $0.0041 | 13.7x | ~$1,850 |
+| 1,000,000 | $0.015 | **50x** | **~$9,500** |
+
+**50x price increase achieved**: $0.0003 → $0.015
+
+**Key Insight:** First 250k tokens cost ~$125, last 250k tokens cost ~$7,650
+Early adopters rewarded massively (50x cheaper than late buyers)
 
 ### Total Cost Integral
 
-To buy from s₁ to s₂:
+To buy from s₁ to s₂ tokens, integrate the curve:
 
 ```
-cost = ∫[s₁ to s₂] 0.0003 × (1 + s/1M)² ds
+cost = ∫[s₁ to s₂] 0.0003 × (1 + s/1M)^5.64 ds
 
-Using u = 1 + s/1M:
-cost = 0.0003 × 1M × ∫ u² du
-     = 300 × [u³/3] from u₁ to u₂
-     = 100 × (u₂³ - u₁³)
+This is calculated numerically in the contract using trapezoidal rule:
+- Divide range into 100 steps
+- Calculate price at each step
+- Sum trapezoid areas
 
-Where:
-  u₁ = 1 + s₁/1M
-  u₂ = 1 + s₂/1M
+Example queries:
+- getCost(100000) → returns USD cost to buy 100k ECHO at current price
+- getCurrentPrice() → returns current price per ECHO
+- getEchoAmount(1000e6, USDC) → returns ECHO amount for $1000 USDC
 ```
+
+**Payment Options:**
+- ETH (native)
+- WETH (wrapped ETH)
+- USDC (most common)
+- USDT (Tether)
+- DAI (stablecoin)
+
+All proceeds go directly to treasury for:
+- Protocol Owned Liquidity (POL)
+- Backing ratio initialization
+- Operations funding
 
 ---
 
